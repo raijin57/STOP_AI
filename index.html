@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Документация</title>
+
+  <!-- тема docsify (CDN) -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    window.$docsify = {
+      name: 'STOP_AI',
+      repo: 'https://github.com/raijin57/STOP_AI',
+      loadSidebar: true,      // подключаем боковую панель из _sidebar.md
+      homepage: 'README.md',
+      subMaxLevel: 2,
+      auto2top: true
+    };
+  </script>
+
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+</body>
+</html>
