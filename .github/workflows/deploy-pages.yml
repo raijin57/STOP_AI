@@ -38,6 +38,9 @@ jobs:
           else
             echo "Warning: gh-pages/docs not found"
           fi
+          
+          # Вносим _sidebar
+          cp -f docs/_sidebar.md site/_sidebar.md
 
           # Копируем content (если есть) в site/content
           if [ -d "content" ]; then
@@ -49,7 +52,10 @@ jobs:
           else
             echo "Warning: content/ not found in either branch"
           fi
-
+          
+          # Вносим README
+          cp -f README.md site/README.md
+          
           # Отключаем Jekyll и добавляем SPA fallback (404)
           touch site/.nojekyll
           if [ -f "site/index.html" ]; then
