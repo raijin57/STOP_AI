@@ -41,4 +41,4 @@ LLM-сервисов на всех платформах. Блокирует са
 
 ## Ссылка на Pages
 
-$https://raijin57.github.io/STOP_AI
+<https://raijin57.github.io/STOP_AI>
