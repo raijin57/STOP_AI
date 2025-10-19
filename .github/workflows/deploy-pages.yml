@@ -11,55 +11,42 @@ jobs:
       - name: Checkout repository (main)
         uses: actions/checkout@v4
 
-      # --- дополнительный checkout ветки gh-pages в подпапку gh-pages ---
-      - name: Checkout gh-pages branch (read-only copy)
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
-          fetch-depth: 0
-
       - name: Prepare site
         run: |
           set -e
           rm -rf site
           mkdir -p site
 
-          # Если в текущей ветке есть docs/ — используем его (удобно, если позже перенесёте в main)
+          # Копируем всё из docs/ в корень site (включая скрытые/underscore файлы)
           if [ -d "docs" ]; then
             echo "Using docs/ from current branch"
             cp -a docs/. site/
-          fi
-
-          # Если в gh-pages есть docs/ — используем приоритетно (ваш случай сейчас)
-          if [ -d "gh-pages/docs" ]; then
-            echo "Using docs/ from gh-pages branch"
-            cp -a gh-pages/docs/. site/
           else
-            echo "Warning: gh-pages/docs not found"
+            echo "Warning: docs/ directory not found in repository."
           fi
-          
-          # Вносим _sidebar
-          cp -f docs/_sidebar.md site/_sidebar.md
 
-          # Копируем content (если есть) в site/content
+          # Явно вносим _sidebar.md в корень site (на случай, если cp не сработал)
+          if [ -f "docs/_sidebar.md" ]; then
+            cp -f docs/_sidebar.md site/_sidebar.md
+          fi
+
+          # Копируем content в site/content
           if [ -d "content" ]; then
             mkdir -p site/content
             cp -a content/. site/content/
-          elif [ -d "gh-pages/content" ]; then
-            mkdir -p site/content
-            cp -a gh-pages/content/. site/content/
           else
-            echo "Warning: content/ not found in either branch"
+            echo "Warning: content/ directory not found in repository."
           fi
-          
-          # Вносим README
-          cp -f README.md site/README.md
-          
+
+          # Копируем README в корень site (homepage: 'README.md')
+          if [ -f "README.md" ]; then
+            cp -f README.md site/README.md
+          fi
+
           # Отключаем Jekyll и добавляем SPA fallback (404)
           touch site/.nojekyll
           if [ -f "site/index.html" ]; then
-            cp site/index.html site/404.html || true
+            cp -f site/index.html site/404.html || true
           fi
 
       - name: Show site contents (for debug)
@@ -68,8 +55,6 @@ jobs:
           ls -la
           echo "Docs (repo):"
           ls -la docs || true
-          echo "Docs (gh-pages):"
-          ls -la gh-pages/docs || true
           echo "Content (repo):"
           ls -la content || true
           echo "Site (to be published):"
