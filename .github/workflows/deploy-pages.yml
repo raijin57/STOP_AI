@@ -8,8 +8,16 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (main)
         uses: actions/checkout@v4
+
+      # --- дополнительный checkout ветки gh-pages в подпапку gh-pages ---
+      - name: Checkout gh-pages branch (read-only copy)
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 0
 
       - name: Prepare site
         run: |
@@ -17,19 +25,35 @@ jobs:
           rm -rf site
           mkdir -p site
 
-          # Копируем docs (включая скрытые файлы) в корень site
+          # Если в текущей ветке есть docs/ — используем его (удобно, если позже перенесёте в main)
           if [ -d "docs" ]; then
+            echo "Using docs/ from current branch"
             cp -a docs/. site/
-          else
-            echo "Warning: docs/ directory not found in repository."
           fi
 
-          # Копируем content в site/content, не трогая исходный content/
+          # Если в gh-pages есть docs/ — используем приоритетно (ваш случай сейчас)
+          if [ -d "gh-pages/docs" ]; then
+            echo "Using docs/ from gh-pages branch"
+            cp -a gh-pages/docs/. site/
+          else
+            echo "Warning: gh-pages/docs not found"
+          fi
+
+          # Копируем content (если есть) в site/content
           if [ -d "content" ]; then
             mkdir -p site/content
             cp -a content/. site/content/
+          elif [ -d "gh-pages/content" ]; then
+            mkdir -p site/content
+            cp -a gh-pages/content/. site/content/
           else
-            echo "Warning: content/ directory not found in repository."
+            echo "Warning: content/ not found in either branch"
+          fi
+
+          # Отключаем Jekyll и добавляем SPA fallback (404)
+          touch site/.nojekyll
+          if [ -f "site/index.html" ]; then
+            cp site/index.html site/404.html || true
           fi
 
       - name: Show site contents (for debug)
@@ -38,6 +62,8 @@ jobs:
           ls -la
           echo "Docs (repo):"
           ls -la docs || true
+          echo "Docs (gh-pages):"
+          ls -la gh-pages/docs || true
           echo "Content (repo):"
           ls -la content || true
           echo "Site (to be published):"
