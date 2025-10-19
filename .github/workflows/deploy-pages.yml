@@ -13,12 +13,40 @@ jobs:
 
       - name: Prepare site
         run: |
+          set -e
+          rm -rf site
           mkdir -p site
-          cp -r docs/* site/ || true
+
+          # Копируем docs (включая скрытые файлы) в корень site
+          if [ -d "docs" ]; then
+            cp -a docs/. site/
+          else
+            echo "Warning: docs/ directory not found in repository."
+          fi
+
+          # Копируем content в site/content, не трогая исходный content/
+          if [ -d "content" ]; then
+            mkdir -p site/content
+            cp -a content/. site/content/
+          else
+            echo "Warning: content/ directory not found in repository."
+          fi
+
+      - name: Show site contents (for debug)
+        run: |
+          echo "Root of repo:"
+          ls -la
+          echo "Docs (repo):"
+          ls -la docs || true
+          echo "Content (repo):"
+          ls -la content || true
+          echo "Site (to be published):"
+          ls -la site || true
+          echo "Tree of site (max depth 3):"
+          find site -maxdepth 3 -print
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
-
