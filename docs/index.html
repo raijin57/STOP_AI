@@ -6,12 +6,14 @@
   <title>Документация</title>
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
   <!-- тема docsify (CDN) -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@sg-developer-portal/doc-theme-default@0.0.13/public/dist/doc.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
 </head>
 <body>
   <div id="app"></div>
-
-  <script>
+  <script src="//cdn.jsdelivr.net/npm/@lx0f/docsify-sidebar-collapse@latest/dist/docsify-sidebar-collapse.bundle.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  
     window.$docsify = {
       name: 'STOP_AI',
       repo: 'https://github.com/raijin57/STOP_AI',
@@ -23,11 +25,9 @@
       subMaxLevel: 3,
       auto2top: true,
       sidebarDisplayLevel: 1,
+      enableSidebarCollapse: true
     };
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-
-<script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
-
 </body>
 </html>
