@@ -26,6 +26,6 @@
   agreed_by_position: "Технический писатель команды SnkrHSE",
 
   // Approved
-  approved_by_name: "Е. С. Курюкин",
+  approved_by_name: "В. С. Макеев",
   approved_by_position: "Руководитель команды SnkrHSE",
 )
