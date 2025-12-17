@@ -16,19 +16,16 @@
   //  (name: "Л. И. Лившиц", group: "БПИ235"),
   // You can write 1 or more students
   students: (
-    (name: "А. В. Брынцев", group: "БПИ246"),
-    (name: "И. В. Дмитриев", group: "БПИ246"),
-    (name: "А. А. Дулаев", group: "БПИ246"),
-    (name: "Г. А. Карнаухов", group: "БПИ246"),
+    (name: "А. А. Дулаев", group: "BDBB"),
   ),
 
   // Agreed
   // Example: "П. В. Дуров"
-  agreed_by_name: "Н. С. Белова",
+  agreed_by_name: "Е. С. Курюкин",
   // Example: "Основатель социальной сети \"ВКонтакте\" и мессенджера Telegram"
-  agreed_by_position: "Кандидат технических наук, доцент департамента программной инженерии ФКН НИУ ВШЭ",
+  agreed_by_position: "Технический писатель команды SnkrHSE",
 
   // Approved
-  approved_by_name: "Н. А. Павлочев",
-  approved_by_position: "Академический руководитель образовательной программы \"Программная инженерия\",\n старший преподаватель департамента программной инженерии",
+  approved_by_name: "Е. С. Курюкин",
+  approved_by_position: "Руководитель команды SnkrHSE",
 )

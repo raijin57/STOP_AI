@@ -100,7 +100,7 @@
 
             #cfg.students.map(
               student => [
-                Студент группы #student.group
+                Команда #student.group
 
                 #un(13) / #student.name /
     
